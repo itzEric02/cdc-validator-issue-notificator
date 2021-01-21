@@ -96,14 +96,9 @@ while true; do
     ((NUM=NUM+1))
 done
 
-if [[ -z "${ADDRESS}" ]]; then
-	echoerr "The validator is not active ❌"
-else
-	echo ""
-fi
 HEIGHT=$(curl --max-time 10 -sSL "${TENDERMINT_URL}/block" | jq -r --arg ADDRESS "${ADDRESS}" '.result as $result | .result.block.last_commit.signatures[] | select(.validator_address | . != null and . != "" and . == $ADDRESS) | $result.block.header.height')
 if [[ -z "${HEIGHT}" ]]; then
-	echoerr "Not Signing ❌"
+	echoerr "Not Signing somethingiswrong"
 else
 	echo "The validator is signing @ Block#${HEIGHT} 👍"
 fi
