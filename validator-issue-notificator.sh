@@ -9,7 +9,7 @@ TIMER=5s
 #Change the message you get if your validator stops signing blocks
 TITLE="Your validator stopped signing blocks"
 CONTENT="Your validator on the CDC-Crossfire network stopped signing blocks"
-SOUND="arcturus"
+SOUND="argon"
 
 #Change the tendermint URL (Crossfire: https://crossfire.crypto.com/ | testnet: https://testnet-croeseid.crypto.com:26657)
 TENDERMINT=https://crossfire.crypto.com/
