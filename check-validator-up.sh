@@ -98,7 +98,7 @@ done
 
 HEIGHT=$(curl --max-time 10 -sSL "${TENDERMINT_URL}/block" | jq -r --arg ADDRESS "${ADDRESS}" '.result as $result | .result.block.last_commit.signatures[] | select(.validator_address | . != null and . != "" and . == $ADDRESS) | $result.block.header.height')
 if [[ -z "${HEIGHT}" ]]; then
-	echo "Not Signing somethingiswrong"
+	echo "not signing something is wrong"
 else
 	echo "The validator is signing @ Block#${HEIGHT} 👍"
 fi
