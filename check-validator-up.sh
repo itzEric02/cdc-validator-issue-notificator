@@ -1,6 +1,8 @@
 #!/usr/bin/bash
+
 # The original version of this script can be found on https://github.com/crypto-com/chain-docs/blob/master/docs/getting-started/assets/signature_checking/check-validator-up.sh
 # It was made by great CDC developers, but I changed it a bit to fit the needs of the cdc-validator-issue-notificator
+
 set -euo pipefail
 IFS=$'\n\t'
 RET_VALUE=0
