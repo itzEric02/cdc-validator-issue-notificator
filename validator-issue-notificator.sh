@@ -4,7 +4,7 @@
 APIKEY=
 
 #How often you want to check (Number[Suffix] e.g. 10s for 10 seconds or 2m for 2 minutes)
-TIMER=5s
+TIMER=20s
 
 #Change the message you get if your validator stops signing blocks
 TITLE="Your validator stopped signing blocks"
@@ -14,7 +14,7 @@ SOUND="argon"
 #Change the tendermint URL (Crossfire: https://crossfire.crypto.com/ | testnet: https://testnet-croeseid.crypto.com:26657)
 TENDERMINT=https://crossfire.crypto.com/
 
-#If you have the public key of your validator at a different location than the standard one
+#If you keep the public key of your validator at a different location than the standard one
 #[.chain-maind/config/priv_validator_key.json]
 #you can change it here
 PUBKEY=$(cat .chain-maind/config/priv_validator_key.json | jq -r ".pub_key.value")
