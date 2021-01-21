@@ -79,7 +79,7 @@ do
  then
 #####################################################################################################################
 #The following part confirms that it is not just one block you are not signing
-#If you want a notification with just one missing block you can delete this part and the marked lines below
+#If you want a notification with just one missing block you can delete this part and the marked fi's below (line 102 and 103)
 #Be warned that there could be some false alarms
   printf "\x1b[31mValidator appears to be offline - retry\x1b[0m\n"
   sleep $RETRY
