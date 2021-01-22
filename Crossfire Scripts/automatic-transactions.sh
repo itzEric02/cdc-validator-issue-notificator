@@ -1,9 +1,9 @@
 #!/bin/bash
 
-ADDRESS=cro17dvkvu6lw5rq4a9jq4uh8lqw7t5sxjze2qn60y # [cro1.....]
+ADDRESS= # [cro1.....]
 KEYNAME=Default
-PASSPHRASE=11092002eri.
-ACCOUNTNUMBER=37
+PASSPHRASE=
+ACCOUNTNUMBER=
 CHAINID=crossfire
 
 clear
