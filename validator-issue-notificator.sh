@@ -62,7 +62,7 @@ if expr length "$APIKEY" != 43 >nul
   printf "\r\e[K\e[32mAPI-key has the correct length\e[0m\n\n"
 fi
 
-printf "This scrip uses parts from the check-validator-up.sh by the CDC Team\n\nYour Notify17 API key is $APIKEY \nYour validator public key is $PUBKEY \nThis script will check the status of your validator every $TIMER \n\n"
+printf "This script uses parts from the check-validator-up.sh by the CDC Team\n\nYour Notify17 API key is $APIKEY \nYour validator public key is $PUBKEY \nThis script will check the status of your validator every $TIMER \n\n"
 
 while true
 do
