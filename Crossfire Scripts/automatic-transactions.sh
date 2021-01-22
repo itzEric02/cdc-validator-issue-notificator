@@ -108,5 +108,11 @@ do
  done
  printf "\r\e[K\e[32mSleepy phase for $SLEEPY\e[0m\n\n"
  sleep $SLEEPY
+ if ./chain-maind q tx $TX | grep -q $ADDRESS
+  then
+    printf "\r\e[K\e[32mLast transaction was successful\e[0m\n"
+  else
+    printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet\e[0m\n"
+ fi
 done
 
