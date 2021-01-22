@@ -20,7 +20,7 @@ TENDERMINT=https://crossfire.crypto.com/
 #you can change it here
 PUBKEY=$(cat .chain-maind/config/priv_validator_key.json | jq -r ".pub_key.value")
 
-#Coose the length of time until a retry is performed (Number[Suffix] e.g. 10s for 10 seconds or 2m for 2 minutes)
+#Change the length of time until a retry is performed (Number[Suffix] e.g. 10s for 10 seconds or 2m for 2 minutes)
 RETRY=10s
 
 hide_cursor() {
