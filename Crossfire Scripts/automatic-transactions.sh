@@ -1,9 +1,9 @@
 #!/bin/bash
 
-ADDRESS= # [cro1.....]
+ADDRESS=                         #[cro1.....]
 KEYNAME=Default
 PASSPHRASE=
-ACCOUNTNUMBER=
+ACCOUNTNUMBER=                   #You can find it with the command ./chain-maind query account [cro1....]
 CHAINID=crossfire
 
 clear
