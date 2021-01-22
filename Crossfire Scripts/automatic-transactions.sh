@@ -1,10 +1,14 @@
 #!/bin/bash
 
-ADDRESS=                         #[cro1.....]
+# v0.2
+
+ADDRESS= # [cro1.....]
 KEYNAME=Default
 PASSPHRASE=
-ACCOUNTNUMBER=                   #You can find it with the command ./chain-maind query account [cro1....]
+ACCOUNTNUMBER=
 CHAINID=crossfire
+COUNT=50 #Number of transactions till sleepy phase
+SLEEPY=20s #length of sleepy phase
 
 clear
 
@@ -93,11 +97,16 @@ n=$(./chain-maind q account $ADDRESS -o json | jq -r .sequence)
 while true
 do
 
+ for (( i=0; i<$COUNT; ++i)); do
+
   echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig
 
-TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
+  TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
 
-echo $TX
+  echo $TX
         ((n++))
+ done
+ printf "\r\e[K\e[32mSleepy phase for $SLEEPY\e[0m\n\n"
+ sleep $SLEEPY
 done
 
