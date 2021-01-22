@@ -46,7 +46,6 @@ then
  exit 1
 fi
 
-
 if expr length "$PUBKEY" != 44 > nul
  then
   printf "\x1b[31mERROR: Your pubkey has not the correct length\x1b[0m\n"
@@ -63,8 +62,6 @@ if expr length "$APIKEY" != 43 >nul
   printf "\r\e[K\e[32mAPI-key has the correct length\e[0m\n\n"
 fi
 
-
-
 printf "This scrip uses parts from the check-validator-up.sh by the CDC Team\n\nYour Notify17 API key is $APIKEY \nYour validator public key is $PUBKEY \nThis script will check the status of your validator every $TIMER \n\n"
 
 while true
@@ -72,10 +69,10 @@ do
 
  UP=$(curl -sSL https://raw.githubusercontent.com/itzEric02/cdc-validator-issue-notificator/main/check-validator-up.sh | bash -s --  --tendermint-url $TENDERMINT --pubkey $PUBKEY)
 
- if  [[ $UP == *"Block#"* ]]
+if  [[ $UP == *"Block#"* ]]
  then
   echo $UP
- elif [[ $UP == "not signing something is wrong" ]]
+elif [[ $UP == "not signing something is wrong" ]]
  then
 #####################################################################################################################
 #The following part confirms that it is not just one block you are not signing
@@ -103,7 +100,7 @@ do
    fi    #<----
  else
   printf "\x1b[31mERROR: Something is wrong with the check-validator-up.sh\x1b[0m\n"
- exit 1
+  exit 1
 fi
 
  sleep $TIMER
