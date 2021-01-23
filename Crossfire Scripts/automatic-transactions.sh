@@ -105,6 +105,7 @@ do
 
   echo $TX
         ((n++))
+  sleep .2
  done
  printf "\r\e[K\e[32mSleepy phase for $SLEEPY\e[0m\n\n"
  sleep $SLEEPY
