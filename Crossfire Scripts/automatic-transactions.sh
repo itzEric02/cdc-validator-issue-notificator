@@ -170,8 +170,6 @@ RETRY=0
    printf "."
   elif [[ $SHOWTX = count ]]
   then
-  elif [[ $SHOWTX = count ]]
-  then
    printf "\r\e[K\e[36m$TXCOUNT \e[0mtransactions created"
   elif [[ $SHOWTX = new ]]
   then
@@ -208,7 +206,7 @@ RETRY=0
 
  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
 
- AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+ AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
  CRO=$(( AMOUNT / 100000000 ))
 
  printf "\nBalance: $CRO tCRO\n\n"
