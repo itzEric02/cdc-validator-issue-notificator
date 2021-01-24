@@ -14,7 +14,7 @@ CHAINID=crossfire
 COUNT=500 #Number of transactions till check of last transaction
 SLEEP=60s #length of the sleep before the scrip tries to check if the last transaction was broadcasted (0 = disabled)
 CHECKTIME=10s #time between retries for check of last transaction
-SHOWTX=count #show tx-hashes in the output [true|new|count|point|false]
+SHOWTX=count #show tx-hashes in the output [true|new|count|count+new|point|false]
 VARBEGIN=true #show all variables on startup
 STARTCHECK=true #check all variables on startup (recommended)
 
