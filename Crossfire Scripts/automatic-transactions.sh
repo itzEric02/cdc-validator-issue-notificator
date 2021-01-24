@@ -185,9 +185,9 @@ RETRY=0
 
  if [[ $SLEEP != 0 ]]
   then
-  printf "\n\nStarting $SLEEP sleep phase\n"
+  printf "\n\nStarting $SLEEP sleep phase"
   sleep $SLEEP
-  printf "\r\e[K\e[32mSleep phase complete\e[0m\n"
+  printf "\r\e[K\e[32mSleep phase complete\e[0m"
  fi
 
  printf "\nChecking last transaction.....\n"
