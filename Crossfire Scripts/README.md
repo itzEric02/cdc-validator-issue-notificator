@@ -12,4 +12,4 @@ new        | show just the newest tx-hash \
 count      | show the amount of txs created since the start of the script \
 count+new  | show the amount of txs created since the start of the script ans the newest tx-hash \
 point      | show a point for every tx created \
-false------| show nothing \
+false      | show nothing
