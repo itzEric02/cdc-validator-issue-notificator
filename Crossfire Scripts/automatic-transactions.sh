@@ -3,7 +3,7 @@
 # v0.4
 
 #################################################################
-#                        User variables                         #
+#                      User variables                           #
 #################################################################
 
 ADDRESS= # [cro1.....]
@@ -12,9 +12,9 @@ PASSPHRASE=
 OPERATOR= # [crocncl1.....]
 CHAINID=crossfire
 TENDERMINT=https://crossfire.crypto.com/
-COUNT=300 #Number of transactions till check of last transaction
+COUNT=100 #Number of transactions till check of last transaction
 SLEEP=30s #length of the sleep before the scrip tries to check if the last transaction was broadcasted (0 = disabled)
-CHECKTIME=9s #time between retries for check of last transaction
+CHECKTIME=5s #time between retries for check of last transaction
 SHOWTX=count+new #show tx-hashes in the output [true|new|count|point|false]
 VARBEGIN=true #show all variables on startup
 STARTCHECK=true #check all variables on startup (recommended)
@@ -234,7 +234,7 @@ RETRY=0
  fi
 
  printf "\nChecking last transaction.....\n"
- until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 20 ]]
+ until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 10 ]]
  do
   printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
   sleep $CHECKTIME
@@ -258,6 +258,7 @@ RETRY=0
   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1)
   do
    printf "\n\r\e[K\e[33mWARNING: Last transaction is not signed yet\e[0m\nGenerating new one\n"
+   echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig
    TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
    TXCOUNT=$(($TXCOUNT+1))
    if [[ $SHOWTX = true ]]
@@ -265,7 +266,7 @@ RETRY=0
     echo $TX
    elif [[ $SHOWTX = point ]]
    then
-    printf ".\n"
+    printf "."
    elif [[ $SHOWTX = count ]]
    then
     printf "\r\e[K\e[36m$TXCOUNT \e[0mtransactions created\n"
@@ -277,7 +278,7 @@ RETRY=0
     printf "\r\e[K\e[36m$TXCOUNT \e[0m$TX\n"
    fi
    RETRY=0
-   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 20 ]]
+   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 10 ]]
    do
     printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
     sleep $CHECKTIME
