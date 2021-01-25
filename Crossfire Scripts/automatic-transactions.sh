@@ -312,7 +312,7 @@ RETRY=0
   printf "Withdrawing rewards from validator...\n"
   echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
   AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
-  CRO=$(( AMOUNT / 100000000 ))
+  CRO=$(( AMOUNT / 50000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
    if [[ $AMOUNT -lt $(( $COUNT * 80000)) ]]
    then
