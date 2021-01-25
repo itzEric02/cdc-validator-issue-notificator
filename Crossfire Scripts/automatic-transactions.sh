@@ -236,7 +236,7 @@ RETRY=0
  printf "\nChecking last transaction.....\n"
  until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 10 ]]
  do
-  printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
+  printf "\r\e[K\e[33mWARNING: Last transaction is not broadcasted yet \e[0m| Retry No.$RETRY....."
   sleep $CHECKTIME
   RETRY=$(($RETRY+1))
  done
@@ -257,7 +257,7 @@ RETRY=0
   printf "\r\e[K\e[32mYour node is synced\e[0m\n\n"
   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1)
   do
-   printf "\n\r\e[K\e[33mWARNING: Last transaction is not signed yet\e[0m\nGenerating new one\n"
+   printf "\n\r\e[K\e[33mWARNING: Last transaction is not broadcasted yet\e[0m\nGenerating new one\n"
    echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig
    TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
    TXCOUNT=$(($TXCOUNT+1))
@@ -280,7 +280,7 @@ RETRY=0
    RETRY=0
    until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 10 ]]
    do
-    printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
+    printf "\r\e[K\e[33mWARNING: Last transaction is not broadcasted yet \e[0m| Retry No.$RETRY....."
     sleep $CHECKTIME
     RETRY=$(($RETRY+1))
    done
