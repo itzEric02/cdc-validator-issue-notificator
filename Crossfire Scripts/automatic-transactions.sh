@@ -6,17 +6,17 @@
 #                        User variables                         #
 #################################################################
 
-ADDRESS=cro17dvkvu6lw5rq4a9jq4uh8lqw7t5sxjze2qn60y # [cro1.....]
+ADDRESS= # [cro1.....]
 KEYNAME=Default
-PASSPHRASE=11092002eri.
-OPERATOR=crocncl17dvkvu6lw5rq4a9jq4uh8lqw7t5sxjzefdsndc # [crocncl1.....]
+PASSPHRASE=
+OPERATOR= # [crocncl1.....]
 CHAINID=crossfire
 TENDERMINT=https://crossfire.crypto.com/
 COUNT=300 #Number of transactions till check of last transaction
 SLEEP=30s #length of the sleep before the scrip tries to check if the last transaction was broadcasted (0 = disabled)
 CHECKTIME=9s #time between retries for check of last transaction
 SHOWTX=count+new #show tx-hashes in the output [true|new|count|point|false]
-VARBEGIN=false #show all variables on startup
+VARBEGIN=true #show all variables on startup
 STARTCHECK=true #check all variables on startup (recommended)
 
 #################################################################
