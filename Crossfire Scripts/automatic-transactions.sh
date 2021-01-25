@@ -265,21 +265,21 @@ RETRY=0
     echo $TX
    elif [[ $SHOWTX = point ]]
    then
-    printf "."
+    printf ".\n"
    elif [[ $SHOWTX = count ]]
    then
-    printf "\r\e[K\e[36m$TXCOUNT \e[0mtransactions created"
+    printf "\r\e[K\e[36m$TXCOUNT \e[0mtransactions created\n"
    elif [[ $SHOWTX = new ]]
    then
-    printf "\r\e[K$TX"
+    printf "\r\e[K$TX\n"
    elif [[ $SHOWTX = count+new ]]
    then
-    printf "\r\e[K\e[36m$TXCOUNT \e[0m$TX"
+    printf "\r\e[K\e[36m$TXCOUNT \e[0m$TX\n"
    fi
    RETRY=0
    until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1) || [[ $RETRY -eq 20 ]]
    do
-    printf "\n\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
+    printf "\r\e[K\e[33mWARNING: Last transaction is not signed yet \e[0m| Retry No.$RETRY....."
     sleep $CHECKTIME
     RETRY=$(($RETRY+1))
    done
