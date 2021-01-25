@@ -149,7 +149,7 @@ then
  fi
  printf "\r\e[K\e[32mYour node is synced\e[0m\n\n"
 
- AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+ AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
  CRO=$(( AMOUNT / 100000000 ))
  printf "Your current balance is $CRO tCRO\n\n"
  if [[ $AMOUNT -lt $(( $COUNT * 80000)) ]]
@@ -157,7 +157,7 @@ then
   printf "\e[33mWARNING: Not enough funds on your account\e[0m\n"
   printf "Withdrawing rewards from validator...\n"
   echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
-  AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+  AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
   CRO=$(( AMOUNT / 100000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
    if [[ $AMOUNT -lt $(( $COUNT * 80000)) ]]
@@ -298,12 +298,12 @@ RETRY=0
 
  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
 
- AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+ AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
  CRO=$(( AMOUNT / 100000000 ))
 
  echo $PASSPHRASE | ./chain-maind tx staking delegate $OPERATOR "$CRO"tcro --from $KEYNAME --chain-id "$CHAINID" --gas 800000 --gas-prices="0.1basetcro" --yes > /dev/null 2>&1
 
- AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+ AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
  CRO=$(( AMOUNT / 100000000 ))
  printf "\n\nYour current balance is $CRO tCRO\n\n"
  if [[ $AMOUNT -lt $(( $COUNT * 80000)) ]]
@@ -311,7 +311,7 @@ RETRY=0
   printf "\e[33mWARNING: Not enough funds on your account\e[0m\n"
   printf "Withdrawing rewards from validator...\n"
   echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
-  AMOUNT=$(/home/eric/chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
+  AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
   CRO=$(( AMOUNT / 100000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
    if [[ $AMOUNT -lt $(( $COUNT * 80000)) ]]
