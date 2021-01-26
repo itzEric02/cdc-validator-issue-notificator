@@ -258,9 +258,10 @@ RETRY=0
   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1)
   do
    printf "\n\r\e[K\e[33mWARNING: Last transaction is not broadcasted yet\e[0m\nGenerating new one\n"
-   echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig2
-   TX=$(./chain-maind tx broadcast sig2 --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
+   echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig
+   TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
    TXCOUNT=$(($TXCOUNT+1))
+   ((n++))
    if [[ $SHOWTX = true ]]
    then
     echo $TX
