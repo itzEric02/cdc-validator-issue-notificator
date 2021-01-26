@@ -241,7 +241,7 @@ RETRY=0
   RETRY=$(($RETRY+1))
  done
 
- if [[ $RETRY -eq 20 ]]
+ if [[ $RETRY -eq 10 ]]
  then
   printf "\n\nChecking if node is synced.....\n"
   LHEIGHT=$(echo -n $(curl -s http://127.0.0.1:26657/commit | jq "{height: .result.signed_header.header.height}" | cut -c 14- | sed 's/"//g'))
