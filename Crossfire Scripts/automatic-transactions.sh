@@ -12,11 +12,11 @@ PASSPHRASE=
 OPERATOR= # [crocncl1.....]
 CHAINID=crossfire
 TENDERMINT=https://crossfire.crypto.com/
-COUNT=100 #Number of transactions till check of last transaction
-SLEEP=30s #length of the sleep before the scrip tries to check if the last transaction was broadcasted (0 = disabled)
+COUNT=1000 #Number of transactions till check of last transaction
+SLEEP=60s #length of the sleep before the scrip tries to check if the last transaction was broadcasted (0 = disabled)
 CHECKTIME=5s #time between retries for check of last transaction
 SHOWTX=count+new #show tx-hashes in the output [true|new|count|point|false]
-VARBEGIN=true #show all variables on startup
+VARBEGIN=false #show all variables on startup
 STARTCHECK=true #check all variables on startup (recommended)
 
 #################################################################
@@ -137,11 +137,13 @@ then
     fi
  fi
 
- LHEIGHT=$(echo -n $(curl -s http://127.0.0.1:26657/commit | jq "{height: .result.signed_header.header.height}" | cut -c 14- | sed 's/"//g'))
+ LNHEIGHT=$(echo -n $(curl -s http://127.0.0.1:26657/commit | jq "{height: .result.signed_header.header.height}" | cut -c 14- | sed 's/"//g'))
  GHEIGHT=$(echo -n $(curl -s https://crossfire.crypto.com/commit | jq "{height: .result.signed_header.header.height}" | cut -c 14- | sed 's/"//g'))
- printf "Local height: $LHEIGHT \n"
- printf "Network height: $GHEIGHT \n\n"
- HEIGHTDIFF=$(( $GHEIGHT - $LHEIGHT ))
+ LVHEIGHT=$(echo -n $(jq ".height" .chain-maind/data/priv_validator_state.json | cut -d " " -f3 | sed 's/"//g'))
+ printf "Local node height: $LNHEIGHT \n"
+ printf "Network height: $GHEIGHT \n"
+ printf "Last signed block: $LVHEIGHT \n\n"
+ HEIGHTDIFF=$(( $GHEIGHT - $LNHEIGHT ))
  if [[ $HEIGHTDIFF -gt 10 ]]
  then
   printf "\x1b[31mERROR: your node is not fully synced\x1b[0m\n"
@@ -156,7 +158,7 @@ then
  then
   printf "\e[33mWARNING: Not enough funds on your account\e[0m\n"
   printf "Withdrawing rewards from validator...\n"
-  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
+  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
   AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
   CRO=$(( AMOUNT / 100000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
@@ -257,11 +259,16 @@ RETRY=0
   printf "\r\e[K\e[32mYour node is synced\e[0m\n\n"
   until ((./chain-maind q tx $TX | grep -q $ADDRESS) > /dev/null 2>&1)
   do
+
    printf "\n\r\e[K\e[33mWARNING: Last transaction is not broadcasted yet\e[0m\nGenerating new one\n"
+
    echo $PASSPHRASE  | ./chain-maind tx sign tx.json --chain-id $CHAINID --from $KEYNAME --sequence "${n}" --offline -a $ACCOUNTNUMBER > sig
+
    TX=$(./chain-maind tx broadcast sig --chain-id $CHAINID --broadcast-mode async --log_format json | jq -r .txhash)
+
+       ((n++))
+
    TXCOUNT=$(($TXCOUNT+1))
-   ((n++))
    if [[ $SHOWTX = true ]]
    then
     echo $TX
