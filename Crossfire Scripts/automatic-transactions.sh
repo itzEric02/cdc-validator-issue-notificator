@@ -158,7 +158,7 @@ then
  then
   printf "\e[33mWARNING: Not enough funds on your account\e[0m\n"
   printf "Withdrawing rewards from validator...\n"
-  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
+  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "$CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
   AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
   CRO=$(( AMOUNT / 100000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
@@ -304,7 +304,7 @@ RETRY=0
   printf "\e[33mConfirmed after $RETRY checks\e[0m"
  fi
 
- echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
+ echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "$CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > /dev/null 2>&1
 
  AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
  CRO=$(( AMOUNT / 200000000 ))
@@ -318,7 +318,7 @@ RETRY=0
  then
   printf "\e[33mWARNING: Not enough funds on your account\e[0m\n"
   printf "Withdrawing rewards from validator...\n"
-  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
+  echo $PASSPHRASE | ./chain-maind tx distribution withdraw-rewards $OPERATOR --from $KEYNAME --chain-id "$CHAINID" --gas 800000 --gas-prices="0.1basetcro" --commission --yes > dev/null 2>&1
   AMOUNT=$(./chain-maind q bank balances $ADDRESS | grep amount | cut -d " " -f3|sed 's/"//g')
   CRO=$(( AMOUNT / 100000000 ))
   printf "Your current balance is $AMOUNT tCRO\n\n"
