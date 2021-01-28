@@ -12,12 +12,6 @@ if [ "$#" == 0 ]
  exit 0
 fi
 
-if expr length "$OPA" != 47 > nul
- then
- printf "\x1b[31mERROR: Your operator address has not the correct length\x1b[0m\n"
- exit 1
-fi
-
 OUTPUT=$(curl -sSL https://chain.crypto.com/explorer/crossfire/api/v1/crossfire/validators | jq | grep $OPA --after-context=26)
 
 MONIKER=$(printf "$OUTPUT" | grep "moniker" | cut -c 19- | sed 's/"//g' | sed 's/,//g')
