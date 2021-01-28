@@ -4,7 +4,7 @@ OPA=$1
 
 OUTPUT=$(curl -sSL https://chain.crypto.com/explorer/crossfire/api/v1/crossfire/validators | jq | grep $OPA --after-context=26)
 
-MONIKER=$(printf "$OUTPUT" | grep "moniker" | cut -c 17- | sed 's/"//g' | sed 's/,//g')
+MONIKER=$(printf "$OUTPUT" | grep "moniker" | cut -c 18- | sed 's/"//g' | sed 's/,//g')
 TASKSETUP=$( printf "$OUTPUT" | grep "taskSetup" | cut -c 20- | sed 's/"//g' | sed 's/,//g')
 TASKACTIVE=$( printf "$OUTPUT" | grep "taskKeepActive" | cut -c 25- | sed 's/"//g' | sed 's/,//g')
 TASKVOTE=$( printf "$OUTPUT" | grep "taskProposalVote" | cut -c 27- | sed 's/"//g' | sed 's/,//g')
