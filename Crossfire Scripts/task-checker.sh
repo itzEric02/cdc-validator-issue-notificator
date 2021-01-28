@@ -25,6 +25,9 @@ P3BK=$(printf "$OUTPUT" | grep "phase3BlockCount" | cut -c 28- | sed 's/"//g' | 
 
 UP2=$(echo $CP2 / $P2BK | bc -l | cut -c 2-3)
 
+printf "\nThese informations are from the official crossfire leaderboard"
+printf "\n\e[33mThey may include some lag\e[0m\n"
+
 printf "\nYour moniker is $MONIKER\n\n"
 if [[ $TASKSETUP = "Completed" ]]
  then
