@@ -12,7 +12,7 @@ if [ "$#" == 0 ]
  exit 0
 fi
 
-if expr length "$OPA" != 46 > nul
+if expr length "$OPA" != 47 > nul
  then
  printf "\x1b[31mERROR: Your operator address has not the correct length\x1b[0m\n"
  exit 1
