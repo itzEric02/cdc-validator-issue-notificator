@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPA=$1
+MONIKER=$1
 
 if ! type "jq" > /dev/null; then
     echo please install jq
@@ -8,41 +8,50 @@ fi
 
 if [ "$#" == 0 ]
  then
- printf "\n\e[31mERROR: Please add your operator address [crocncl1...] to the end of the command\e[0m\n"
+ printf "\n\e[31mERROR: Please add your moniker to command \e[0m\n"
  exit 0
 fi
 
-OUTPUT=$(curl -sSL https://chain.crypto.com/explorer/crossfire/api/v1/crossfire/validators | jq | grep $OPA --after-context=26)
+if [[ $MONIKER == *"crocncl1"* ]]
+ then
+ printf "\n@arg improved the script\n\e[31mERROR: Please add your moniker and not your operator address \e[0m\n"
+ exit 0
+fi
 
-MONIKER=$(printf "$OUTPUT" | grep "moniker" | cut -c 19- | sed 's/"//g' | sed 's/,//g')
-TASKSETUP=$( printf "$OUTPUT" | grep "taskSetup" | cut -c 20- | sed 's/"//g' | sed 's/,//g')
-TASKACTIVE=$( printf "$OUTPUT" | grep "taskKeepActive" | cut -c 25- | sed 's/"//g' | sed 's/,//g')
-TASKVOTE=$( printf "$OUTPUT" | grep "taskProposalVote" | cut -c 27- | sed 's/"//g' | sed 's/,//g')
-TASKUPGRADE=$( printf "$OUTPUT" | grep "taskNetworkUpgrade" | cut -c 29- | sed 's/"//g' | sed 's/,//g')
+JSON=$( curl -sSL https://chain.crypto.com/explorer/crossfire/api/v1/crossfire/validators | jq --arg MONIKER "$MONIKER" '.[][] | select(.moniker==$MONIKER)' )
 
-TOTALTX=$(printf "$OUTPUT" | grep "totalTxSent" | cut -c 23- | sed 's/"//g' | sed 's/,//g')
-TX1=$(printf "$OUTPUT" | grep "txSentPhase1" | cut -c 24- | sed 's/"//g' | sed 's/,//g')
-TX2=$(printf "$OUTPUT" | grep "txSentPhase2" | cut -c 24- | sed 's/"//g' | sed 's/,//g')
-TX3=$(printf "$OUTPUT" | grep "txSentPhase3" | cut -c 24- | sed 's/"//g' | sed 's/,//g')
+#Print pretty printed JSON
+#echo $JSON | jq ''
 
-CP1n2=$(printf "$OUTPUT" | grep "commitCountPhase1n2" | cut -c 31- | sed 's/"//g' | sed 's/,//g')
-CP2=$(printf "$OUTPUT" | grep "commitCountPhase2" | cut -c 29- | sed 's/"//g' | sed 's/,//g')
-CP3=$(printf "$OUTPUT" | grep "commitCountPhase3" | cut -c 29- | sed 's/"//g' | sed 's/,//g')
+ADDRESS=$( echo $JSON | jq -r '.operatorAddress'  )
+TASKSETUP=$( echo $JSON | jq -r '.taskSetup'  )
+TASKACTIVE=$( echo $JSON | jq -r '.taskKeepActive'  )
+TASKVOTE=$( echo $JSON | jq -r '.taskProposalVote' )
+TASKUPGRADE=$( echo $JSON | jq -r '.taskNetworkUpgrade' )
 
-P1BK=$(printf "$OUTPUT" | grep "phase1BlockCount" | cut -c 28- | sed 's/"//g' | sed 's/,//g')
-P2BK=$(printf "$OUTPUT" | grep "phase2BlockCount" | cut -c 28- | sed 's/"//g' | sed 's/,//g')
-P3BK=$(printf "$OUTPUT" | grep "phase3BlockCount" | cut -c 28- | sed 's/"//g' | sed 's/,//g')
+TOTALTX=$( echo $JSON | jq -r '.stats.totalTxSent' )
+TX1=$( echo $JSON | jq -r '.stats.txSentPhase1' )
+TX2=$( echo $JSON | jq -r '.stats.txSentPhase2' )
+TX3=$( echo $JSON | jq -r '.stats.txSentPhase3' )
 
-RANK1=$(printf "$OUTPUT" | grep "rankPhase1n2CommitmentRank" | cut -c 36- | sed 's/"//g' | sed 's/,//g')
-RANK2=$(printf "$OUTPUT" | grep "rankPhase3CommitmentRank"  | cut -c 34- | sed 's/"//g' | sed 's/,//g')
-RANK3=$(printf "$OUTPUT" | grep "rankTxSentRank"  | cut -c 24- | sed 's/"//g' | sed 's/,//g')
+CP1n2=$(echo $JSON | jq -r '.stats.commitCountPhase1n2' )
+CP2=$(echo $JSON | jq -r '.stats.commitCountPhase2' )
+CP3=$(echo $JSON | jq -r '.stats.commitCountPhase3' )
+
+P1BK=$(echo $JSON | jq -r '.stats.phase1BlockCount' )
+P2BK=$(echo $JSON | jq -r '.stats.phase2BlockCount' )
+P3BK=$(echo $JSON | jq -r '.stats.phase3BlockCount' )
+
+RANK1=$(echo $JSON | jq -r '.rankPhase1n2CommitmentRank' )
+RANK2=$(echo $JSON | jq -r '.rankPhase3CommitmentRank' )
+RANK3=$(echo $JSON | jq -r '.rankTxSentRank' )
 
 UP2=$(echo $CP2 / $P2BK | bc -l | cut -c 2-3)
 
 printf "\nThese informations are from the official crossfire leaderboard"
 printf "\n\e[33mThey may include some lag\e[0m\n"
 
-printf "\nYour moniker is $MONIKER\n\n"
+printf "\nYour moniker is $MONIKER \nYour operator address is $ADDRESS\n\n"
 if [[ $TASKSETUP = "Completed" ]]
  then
  printf "Task 1:\e[32m Completed\e[0m\n"
